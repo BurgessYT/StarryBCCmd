@@ -1,0 +1,4 @@
+main: com.burgess.starrybccmd.bungeecord.MainContainer
+author: burgess
+name: StarryBCCmd
+version: BC1.1

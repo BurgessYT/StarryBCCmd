@@ -1,0 +1,7 @@
+main: com.burgess.starrybccmd.bukkit.MainContainer
+author: burgess
+name: StarryBCCmd-Bukkit
+version: BK1.0
+commands:
+  bccmd:
+    description: "design by burgess"

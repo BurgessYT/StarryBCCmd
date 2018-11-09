@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="StarryBCCmd:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/StarryBCCmd_jar</output-path>
+    <root id="archive" name="StarryBCCmd.jar">
+      <element id="module-output" name="StarryBCCmd" />
+      <element id="file-copy" path="$PROJECT_DIR$/bungee.yml" />
+      <element id="file-copy" path="$PROJECT_DIR$/config.yml" />
+    </root>
+  </artifact>
+</component>

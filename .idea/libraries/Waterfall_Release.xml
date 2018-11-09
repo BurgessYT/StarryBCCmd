@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Waterfall-Release">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/Desktop/开发/minecraft/核心/Waterfall-Release.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/开发/minecraft/核心/PaperSpigot-1.12.2-b1581.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/Desktop/开发/minecraft/核心/PaperSpigot-1.12.2-b1581.jar!/" />
+    </SOURCES>
+  </library>
+</component>
