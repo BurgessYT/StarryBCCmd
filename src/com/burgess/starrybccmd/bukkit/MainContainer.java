@@ -22,7 +22,7 @@ public class MainContainer extends JavaPlugin implements PluginMessageListener {
     @Override
     public void onLoad() {
         try {
-            this.getLogger().info("StarryBCCmd正在加载...");
+            this.getLogger().info(serverPrefix + "StarryBCCmd正在加载...");
             if (!getDataFolder().exists()) {
                 this.getDataFolder().mkdirs();
             }
@@ -33,7 +33,7 @@ public class MainContainer extends JavaPlugin implements PluginMessageListener {
             serverPrefix = this.getConfig().getString("serverPrefix");
             delay = this.getConfig().getLong("delay") * 20;
         } catch (Exception e) {
-            this.getLogger().info("StarryBCCmd加载失败");
+            this.getLogger().info(serverPrefix + "StarryBCCmd加载失败");
             e.printStackTrace();
         }
     }
@@ -44,10 +44,12 @@ public class MainContainer extends JavaPlugin implements PluginMessageListener {
         this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
         this.getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", this);
         Bukkit.getPluginCommand("bccmd").setExecutor(new BukkitCommand());
+        this.getLogger().info(serverPrefix + "StarryBCCmd加载成功!");
     }
 
     @Override
     public void onDisable() {
+        this.getLogger().info(serverPrefix + "StarryBCCmd已停止");
     }
 
     @Override
