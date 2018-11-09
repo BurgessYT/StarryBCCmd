@@ -3,17 +3,22 @@ package com.burgess.starrybccmd.bukkit;
 import com.burgess.starrybccmd.bukkit.event.BukkitCommand;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
+import net.craftersland.data.bridge.PD;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.messaging.PluginMessageListener;
 
+import java.io.ByteArrayInputStream;
+import java.io.DataInputStream;
 import java.io.File;
+import java.io.IOException;
 
 public class MainContainer extends JavaPlugin implements PluginMessageListener {
 
     private static MainContainer INSTANCE;
     private static String serverPrefix = null;
+    private static long delay;
 
     @Override
     public void onLoad() {
@@ -27,6 +32,7 @@ public class MainContainer extends JavaPlugin implements PluginMessageListener {
                 this.saveDefaultConfig();
             }
             serverPrefix = this.getConfig().getString("serverPrefix");
+            delay = this.getConfig().getLong("delay") * 20;
         } catch (Exception e) {
             this.getLogger().info("StarryBCCmd加载失败");
             e.printStackTrace();
@@ -52,7 +58,38 @@ public class MainContainer extends JavaPlugin implements PluginMessageListener {
         }
         ByteArrayDataInput in = ByteStreams.newDataInput(message);
         String subchannel = in.readUTF();
-        System.out.println(subchannel);
+
+        if(!subchannel.equals("bccmd"))
+            return;
+        if (player == null || !player.isOnline())
+            return;
+
+        short len = in.readShort();
+        byte[] msgbytes = new byte[len];
+        in.readFully(msgbytes);
+
+        DataInputStream msgin = new DataInputStream(new ByteArrayInputStream(msgbytes));
+        String data = null;
+
+        try {
+            data = msgin.readUTF();
+        } catch (IOException e) {
+            this.getLogger().info(serverPrefix + "流写入失败，无法接受远程服务器信息");
+            e.printStackTrace();
+        }
+
+        String finalData = data;
+        this.getServer().getScheduler().runTaskLaterAsynchronously(this, () -> {
+            try {
+                while (PD.api.isSyncComplete(player)) {
+                    Bukkit.getScheduler().runTask(this, () -> player.performCommand(finalData));
+                    break;
+                }
+            } catch (NoClassDefFoundError e) {
+                Bukkit.getScheduler().runTask(this, () -> player.performCommand(finalData));
+            }
+        }, delay);
+
     }
 
     public static MainContainer getInstance() {
@@ -62,4 +99,5 @@ public class MainContainer extends JavaPlugin implements PluginMessageListener {
     public static String getServerPrefix() {
         return serverPrefix;
     }
+
 }
